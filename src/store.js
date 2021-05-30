@@ -20,8 +20,15 @@ const usersList = [
     }
 ]
 
+const loadedUsers = [{
+    name: '',
+    username: '',
+    avatar: ''
+}];
+
 const initialState = {
-    usersList: usersList
+    usersList: usersList,
+    loadedUsers: loadedUsers
 }
 
 const reducer = (state = initialState, action) => {
@@ -47,13 +54,23 @@ const reducer = (state = initialState, action) => {
                     action.payload
                 ]
             }
+        case "get_users":
+            return {
+                ...state,
+                usersList: [
+                    ...state.usersList,
+                    ...state.loadedUsers,
+                    action.payload
+                ]
+            }
         default:
             return state;
     }
 };
 
-export const loadUsers = () => ({
-    type: "load_users"
+export const loadUsers = (userData) => ({
+    type: "load_users",
+    payload: userData
 });
 
 export const addUser = (userData) => ({
@@ -61,15 +78,22 @@ export const addUser = (userData) => ({
     payload: userData
 });
 
-export const postNewUser = () => (dispatch, userData) => {
-    dispatch({
-        type: 'post_new_user'
-    })
-    axios({
-        method: 'post',
-        url: 'http://domer.tech:9999/users/',
-        data: userData
-    });
+export const getUsers = (loadedUsersData) => (dispatch) => {
+    axios.get('http://domer.tech:9999/users/').then(res => {
+        dispatch({
+            type: 'get_users',
+            payload: loadedUsersData
+        })
+    }).catch(error => console.log(error))
+};
+
+export const postNewUser = (userData) => (dispatch) => {
+    axios.post('http://domer.tech:9999/users/', userData).then(res => {
+        dispatch({
+            type: 'post_new_user',
+            payload: userData
+        })
+    }).catch(err => console.error(err))
 }
 
 const store = createStore(reducer, applyMiddleware(thunk));

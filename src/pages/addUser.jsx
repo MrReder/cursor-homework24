@@ -29,6 +29,15 @@ const AddUser = () => {
             username: username,
             avatar: avatar
         }
+        dispatch(postNewUser(userData));
+    }
+
+    const handleAddUserToInitial = () => {
+        const userData = {
+            name: name,
+            username: username,
+            avatar: avatar
+        }
         dispatch(addUser(userData));
     }
 
@@ -37,7 +46,8 @@ const AddUser = () => {
             <input type="text" placeholder="Please input name" onChange={handleName} className='text-input'></input>
             <input type="text" placeholder="Please input username" onChange={handleUsername} className='text-input'></input>
             <input type="url" placeholder="Please paste avatar url" onChange={handleAvatar} className='url-input'></input>
-            <button onClick={handleAddUser, postNewUser} style={{ marginBottom: 20 }}>Add user</button>
+            <button onClick={handleAddUser} style={{ marginBottom: 20 }}>Add user to server and initial list</button>
+            <button onClick={handleAddUserToInitial}>Add user to initial list</button>
         </div>
     )
 };
