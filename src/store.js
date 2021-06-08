@@ -20,11 +20,7 @@ const usersList = [
     }
 ]
 
-const loadedUsers = [{
-    name: '',
-    username: '',
-    avatar: ''
-}];
+const loadedUsers = [];
 
 const initialState = {
     usersList: usersList,
@@ -55,11 +51,11 @@ const reducer = (state = initialState, action) => {
                 ]
             }
         case "get_users":
+            console.log(action.payload)
             return {
                 ...state,
                 usersList: [
                     ...state.usersList,
-                    ...state.loadedUsers,
                     action.payload
                 ]
             }
@@ -78,11 +74,11 @@ export const addUser = (userData) => ({
     payload: userData
 });
 
-export const getUsers = (loadedUsersData) => (dispatch) => {
+export const getUsers = () => (dispatch) => {
     axios.get('http://domer.tech:9999/users/').then(res => {
         dispatch({
             type: 'get_users',
-            payload: loadedUsersData
+            payload: res.data.data
         })
     }).catch(error => console.log(error))
 };

@@ -8,6 +8,7 @@ import axios from 'axios';
 export const Users = () => {
     const users = useSelector(state => state.usersList);
     const loadedUsers = useSelector(state => state.loadedUsers);
+
     const dispatch = useDispatch();
 
     const [name, setName] = useState('');
@@ -31,3 +32,4 @@ export const Users = () => {
         </div>
     )
 };
+
